@@ -1,0 +1,326 @@
+Index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<div style="background-color:#003366;padding:18px;text-align:center;">
+    <a href="index.html" style="color:white;text-decoration:none;font-size:25px;margin:30px;">
+        Home
+    </a>
+    <a href="train.html" style="color:white;text-decoration:none;font-size:25px;margin:30px;">
+        Train
+    </a>
+    <a href="flight.html" style="color:white;text-decoration:none;font-size:25px;margin:30px;">
+        Flight
+    </a>
+    <a href="bus.html" style="color:white;text-decoration:none;font-size:25px;margin:30px;">
+        Bus
+    </a>
+</div>
+<body style="background-color: black;">
+    <center>
+        <form action="ticketbooking" method="post">
+<div  style = " width:450px; background:rgb(37, 213, 236); padding:30px; margin:120px; border-radius:20px; ; ">
+    <table  >
+        <th><h1>BOOK YOUR TICKET</h1>
+            <tr >
+            <td style="color: rgb(0, 153, 255);"><label >Name     
+                </label>
+            </td>
+            <td><input type="text" placeholder="Enter your name" name="name" style = "width:200px ; height:35px; margin-bottom:20px; border-radius:15px; padding-left:10px; padding-right: 10px; "></td>
+        </tr>
+        <tr >
+            <td style="color: rgb(0, 153, 255);"><label >From     
+                </label>
+            </td>
+            <td><input type="text" placeholder="Enter the place" name="from" style = "width:200px ; height:35px; margin-bottom:20px; border-radius:15px; padding-left:10px; padding-right: 10px; "></td>
+        </tr>
+        <tr >
+            <td style="color: rgb(0, 153, 255);">
+                <label >TO
+                </label>
+            </td>
+            <td><input type="text" placeholder="Enter the place" name="to" style = "width:200px ; height:35px; margin-bottom:20px; border-radius:15px; padding-left:10px; padding-right: 10px; "></td>
+        </tr>
+        <tr >
+            <td style="color: rgb(0, 153, 255);">
+                <label>Tickets
+                </label>
+            </td>
+            <td><input type="number" placeholder="Number of Tickets" name="tickets" style = "width:200px ; height:35px; margin-bottom:20px; border-radius:15px; padding-left:10px; padding-right: 10px; "></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="BOOK" name="btn">
+            </td>
+        </tr>
+        </th>
+    </table>
+    </div>
+    </form>
+    </center>
+</body>
+<footer>
+    <div style="background:#003366;color:white;text-align:center;padding:15px;margin-top:120px;">© 2026 TravelOS | Happy Journey ✈️ 🚆 🚌</div>
+</footer>
+</html>
+
+Registration.jsp
+
+<%-- 
+    Document   : registeration
+    Created on : 3 Sep, 2026, 2:11:31 PM
+    Author     : 24uad118
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <% String name = request.getParameter("username");
+           String ph = request.getParameter("phone");
+           String email = request.getParameter("email");
+           String card = request.getParameter("card");
+           String password = request.getParameter("password");
+        %>
+        <div>
+            <table>
+                <th>Person Details</th>
+                <tr>
+                    <td>
+                        Name:
+                    </td>
+                    <td>
+                        <%= name %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Phone No:
+                    </td>
+                    <td>
+                        <%= ph %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Email:
+                    </td>
+                    <td>
+                        <%= email %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Credit Card:
+                    </td>
+                    <td>
+                        <%= password %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Credit card:
+                    </td>
+                    <td>
+                        <%= card %>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+    <style>
+        div{
+            margin-top: 150px;
+            margin-left: 350px;
+            background-color:burlywood;
+            padding-left: 50px;
+            width: 300px;
+            height: 250px;
+            border-radius: 15px;
+            cellspacing:10px;
+            padding-top: 100px;
+        }
+    </style>
+</html>
+
+Bookning.java
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class ticketbooking extends HttpServlet {
+
+    protected void processRequest(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("text/html;charset=UTF-8");
+
+        String name = request.getParameter("name");
+        String from = request.getParameter("from");
+        String to = request.getParameter("to");
+        String tickets = request.getParameter("tickets");
+
+        PrintWriter out = response.getWriter();
+
+        try {
+            int ticketCount = Integer.parseInt(tickets);
+            
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/Travelos",
+                    "root",
+                    "Maheetharan@#$_&091929"
+            );
+
+            String query =
+                    "INSERT INTO travelos "
+                    + "(name, from_place, to_place, number_of_tickets) "
+                    + "VALUES (?, ?, ?, ?)";
+
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setString(1, name);
+            ps.setString(2, from);
+            ps.setString(3, to);
+            ps.setInt(4, ticketCount);
+
+            int i = ps.executeUpdate();
+
+            if (i > 0) {
+
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Booking Successful</title>");
+
+                out.println("<style>");
+                out.println("body {");
+                out.println("background-color: black;");
+                out.println("font-family: Arial;");
+                out.println("text-align: center;");
+                out.println("color: white;");
+                out.println("}");
+
+                out.println(".box {");
+                out.println("width: 500px;");
+                out.println("margin: 100px auto;");
+                out.println("background: rgb(37, 213, 236);");
+                out.println("padding: 30px;");
+                out.println("border-radius: 20px;");
+                out.println("color: black;");
+                out.println("}");
+
+                out.println("table {");
+                out.println("margin: auto;");
+                out.println("border-collapse: collapse;");
+                out.println("}");
+
+                out.println("td, th {");
+                out.println("border: 1px solid black;");
+                out.println("padding: 10px;");
+                out.println("}");
+
+                out.println("a {");
+                out.println("display: inline-block;");
+                out.println("margin-top: 20px;");
+                out.println("padding: 10px 20px;");
+                out.println("background: #003366;");
+                out.println("color: white;");
+                out.println("text-decoration: none;");
+                out.println("border-radius: 10px;");
+                out.println("}");
+                out.println("</style>");
+
+                out.println("</head>");
+                out.println("<body>");
+
+                out.println("<div class='box'>");
+
+                out.println("<h1>Ticket Booked Successfully!</h1>");
+
+                out.println("<h2>Booking Details</h2>");
+
+                out.println("<table>");
+
+                out.println("<tr>");
+                out.println("<th>Name</th>");
+                out.println("<td>" + name + "</td>");
+                out.println("</tr>");
+
+                out.println("<tr>");
+                out.println("<th>From</th>");
+                out.println("<td>" + from + "</td>");
+                out.println("</tr>");
+
+                out.println("<tr>");
+                out.println("<th>To</th>");
+                out.println("<td>" + to + "</td>");
+                out.println("</tr>");
+
+                out.println("<tr>");
+                out.println("<th>Tickets</th>");
+                out.println("<td>" + ticketCount + "</td>");
+                out.println("</tr>");
+
+                out.println("</table>");
+
+                out.println("<a href='index.jsp'>Back to Home</a>");
+
+                out.println("</div>");
+
+                out.println("</body>");
+                out.println("</html>");
+
+            } else {
+
+                out.println("<h1>Booking Failed!</h1>");
+            }
+
+            ps.close();
+            con.close();
+
+        } catch (NumberFormatException e) {
+
+            out.println("<h2>Invalid number of tickets!</h2>");
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            out.println("<h2>Error occurred!</h2>");
+            out.println("<p>" + e.getMessage() + "</p>");
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+
+        processRequest(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+
+        processRequest(request, response);
+    }
+}
